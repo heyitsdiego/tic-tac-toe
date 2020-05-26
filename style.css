@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 body {
-  background-color: bisque;
+  font-family: 'Comic Neue';
+  background: #f7fafc
 }
 header {
   text-align: center;
@@ -13,9 +15,14 @@ header {
 }
 
 .players {
+font-size: 1.5rem;
 display: flex;
 flex-direction: column;
 align-items: flex-end;
+padding-right: 5rem;
+}
+.players div {
+  margin: 1em 0;
 }
 
 .game-board {
@@ -31,5 +38,70 @@ align-items: flex-end;
   justify-content: center;
   align-items: center;
   font-size: 5rem;
-  border: 1px solid;
+  border: white;
 }
+
+#sq1 {
+  border-right: 6px solid #2a7758;
+}
+#sq2 {
+  border-right:  6px solid #2a7758;
+}
+/* #sq3 {
+
+} */
+#sq4 {
+  border-right:  6px solid #2a7758;
+  border-top:  6px solid #2a7758;
+}
+#sq5 {
+  border-right:  6px solid #2a7758;
+  border-top: 6px solid #2a7758;
+}
+#sq6 {
+  border-top:  6px solid #2a7758;
+}
+#sq7 {
+  border-top:  6px solid #2a7758;
+  border-right:  6px solid #2a7758;
+}
+#sq8 {
+  border-top:  6px solid #2a7758;
+  border-right:  6px solid #2a7758;
+}
+#sq9 {
+  border-top:  6px solid #2a7758;
+}
+
+.controls {
+  padding-left: 5rem;
+  font-size: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+.controls div {
+  margin: 1em 0;
+}
+
+a {
+  position:relative;
+  text-decoration:none;
+}
+  a:after {
+    content:'';
+    position:absolute;
+    bottom:0;
+    left:0;
+    height:10px;
+    width:0;
+    background-color:#cd3d64;
+    z-index:-5;
+    transition:width .05s;
+  }
+  a:hover:after {
+    width:100%;
+  }
+
+
+  /*for O color: #cd3d64;
+  for X     color: #596ada; */
