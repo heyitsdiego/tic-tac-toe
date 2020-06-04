@@ -1,28 +1,15 @@
-//show draw ----DONE
 //make sure the reset function resets the players names
 //prob need a start game function too -----DONE
 //adjust the symbol colors for each player
 //adjust the background colors for winning strike
 
-const setEventListeners = (documentMethod, domElement, functionToAdd) => {
-  if (documentMethod == 'querySelectorAll') {
-    const nodeList = document.querySelectorAll(`${domElement}`);
-    nodeList.forEach((element)=> {
-      element.addEventListener('click', functionToAdd)
-    })
-  }
-  if (documentMethod == 'querySelector') {
-    const node = document.querySelector(`${domElement}`);
-    node.addEventListener('click', functionToAdd)
-  }
-    if (documentMethod == 'getElementById') {
-    const node = document.getElementById(`${domElement}`);
-    node.addEventListener('click', functionToAdd)
-  }
-}
+
+
+
+
+
 
 //PLAYERS
-
 const playersFactory = (name, symbol, type) => {
   const getName = () => name;
   const getSymbol = () => symbol;
@@ -34,21 +21,83 @@ const playersFactory = (name, symbol, type) => {
   };
 };
 
-
-// ********************************
-
+// GAME MODULE ************************
 const gameModule = (() => {
 
+const settingss = () => {
+    const a = document.querySelector('.board-squares')
+    const b = document.querySelector('.settings')
+    a.style.display = 'none'
+    b.className = "settings-active";
+  }
+const reset = () => {
+    const a = document.querySelector('.board-squares')
+    const b = document.querySelector('.settings')
+    a.style.display = 'none'
+    b.className = "settings-active";
+  }
+  
+const showAISettings = () => {
+    let a = document.querySelector('.mode-settings-friends')
+    let b = document.querySelector('.ai-mode')
+    a.style.display = 'none'
+    b.style.display = 'block'
+  }
+  
+const showFriends = () => {
+    let a = document.querySelector('.mode-settings-friends')
+    let b = document.querySelector('.ai-mode')
+    a.style.display = 'block'
+    b.style.display = 'none'
+  }
+  
+const cancelSettings = () => {
+    const a = document.querySelector('.settings-active')
+    const b = document.querySelector('.board-squares')
+    a.className = "settings";
+    b.style.display = 'grid'
+  }
+  
+const saveSettings = () => {
+  let nameX = "";
+  let nameO = "";
+    let a = document.getElementById('human-player-x')
+    let b = document.getElementById('human-player-o')
+    if (a.value === "") {
+      nameX = 'Player X'
+    }
+    else {
+     nameX = a.value
+    }
+    if (b.value == "") {
+      nameO = 'Player O'
+    }
+    else {
+      nameO = b.value
+    }
+    let playerX = playersFactory(nameX, "X", true);
+    let playerO = playersFactory(nameO, "O", true);
+    document.getElementById('X').innerText = nameX
+    document.getElementById('O').innerText = nameO
+    cancelSettings()
+  }
+
+  const startGame = () => {
+    gameboardModule.renderGameBoard();
+    setEventListeners('querySelectorAll', '.square', playRound)
+    // if (!activePlayer.human()) {
+    //   computerMove()
+    // }
+  }
+
+  let turnCounter = 0;
   let playerX = playersFactory("Player X", "X", true);
   let playerO = playersFactory("Player O", "O", true);
-  const arrPlayers = [playerX, playerO];
   let activePlayer = playerX;
   let gameActive = true;
   let gameTypeHuman = true;
   if (activePlayer === playerX) {
-    console.log('yes')
   }
-
 
   const toggleGameType = () => {
     if (gameTypeHuman) {
@@ -68,7 +117,6 @@ const gameModule = (() => {
     }
   }
 
-  
   const getActivePlayer = () => activePlayer;
 
   const setActivePlayer = (name,symbol) => {
@@ -80,7 +128,7 @@ const gameModule = (() => {
  /* 
 Function startGame
 	Run Function to Render Board --done
-	Run Function to set event listeners --to build
+	Run Function to set event listeners --done
 	Run Function to set game type--to build 
 	Run Function to set Players – user default paremeters--to build
 	If active player is computer > Run computer move Function--to build
@@ -101,9 +149,15 @@ const toggleActivePlayer = () => {
 }
 
 
-const displayGameOutcome = () => {
+const displayGameOutcome = (outcome) => {
+
   const outcomeDisplay = document.querySelector('.outcome-display');
-  outcomeDisplay.innerText = `${activePlayer.getName()} Wins!`
+  if (outcome === 'Draw!') {
+    outcomeDisplay.innerText = 'Draw!'
+  }
+  else {
+    outcomeDisplay.innerText = outcome + 'Wins!';
+  }
   outcomeDisplay.style.display = 'block'
 }
 
@@ -114,32 +168,25 @@ const playRound = (e) => {
   toggleActivePlayer();
 }
 
-  const startGame = () => {
-    gameboardModule.renderGameBoard();
-    setEventListeners('querySelectorAll', '.square', playRound)
-    // setEventListeners(classs, event, functionn);
-    // createPlayers()
-    // if (!activePlayer.human()) {
-    //   computerMove()
-    // }
-  }
-
   const stopGame = () => {
+    toggleGameActive()
     const clear = document.querySelectorAll('.square')
-        clear.forEach((square) => {
-          square.removeEventListener("click", playRound);
-        })
+    clear.forEach((square) => {
+      square.removeEventListener("click", playRound);
+    })
   }
 
   const gameOutcome = () => {
-    const arrayofCombinations = [ [0,3,1], [3,6,1], [6,9,1], [0,7,3], [1,8,3], 
-    [2,9,3], [0,9,4], [2,7,2] ];
+    turnCounter +=1;
+    const arrayofCombinations = 
+    [ [0,3,1], [3,6,1], [6,9,1], [0,7,3], [1,8,3], [2,9,3], [0,9,4], [2,7,2] ];
+  
     const arrayofSquares = document.querySelectorAll('.square');
-
-    arrayofCombinations.forEach(element=> {
+    arrayofCombinations.forEach(array=> {
       let xCount = 0;
       let oCount = 0;
-      for (let i = element[0]; i < element[1]; i+= element[2]) {
+      //for block
+      for (let i = array[0]; i < array[1]; i+= array[2]) {
         if (arrayofSquares[i].innerText === 'X') {
           xCount += 1
         }
@@ -147,14 +194,26 @@ const playRound = (e) => {
           oCount +=1
         }
       }
+
       if (xCount == 3 || oCount == 3) {
         stopGame();
-        displayGameOutcome()
+        displayGameOutcome(activePlayer.getName())
+      }
+      else if (turnCounter == 9 && gameActive == true) {
+        console.log('apple')
+        displayGameOutcome('Draw!')
       }
     })
+  //END of forEach
   }
-  return {startGame, gameOutcome, activePlayer}
+  return {startGame, gameOutcome, activePlayer, settingss, showAISettings, 
+        showFriends, cancelSettings, saveSettings}
 })();
+
+
+
+
+
 
 
 
@@ -199,6 +258,29 @@ const gameboardModule = (() => {
 
 
 
+const settingss = document.querySelector('.game-settings')
+settingss.addEventListener('click', gameModule.settingss)
+
+const cancel = document.getElementById('cancel');
+cancel.addEventListener('click', gameModule.cancelSettings)
+
+const friendsSettings = document.querySelector('.against-friend')
+friendsSettings.addEventListener('click', gameModule.showFriends)
+
+const AIsettings = document.querySelector('.against-ai')
+AIsettings.addEventListener('click', gameModule.showAISettings)
+
+const startGames = document.querySelector('.game-start')
+startGames.addEventListener('click', gameboardModule.gameboardClear)
+
+const saveButton = document.getElementById('save')
+saveButton.addEventListener('click', gameModule.saveSettings)
+
+const resetButton = document.querySelector('.reset-game');
+resetButton.addEventListener('click', gameModule.reset);
+
+
+gameModule.startGame()
 
 
 
@@ -228,81 +310,6 @@ const gameboardModule = (() => {
 
 
 
-//if the square is full dont do anythng
-
-// }
-
-// const resetButton = document.querySelector('.reset-game');
-// resetButton.addEventListener('click', game.reset);
-
-// function settingss() {
-//   const a = document.querySelector('.board-squares')
-//   const b = document.querySelector('.settings')
-//   a.style.display = 'none'
-//   b.className = "settings-active";
-// }
-
-// function showAISettings() {
-//   let a = document.querySelector('.mode-settings-friends')
-//   let b = document.querySelector('.ai-mode')
-//   a.style.display = 'none'
-//   b.style.display = 'block'
-// }
-
-// function showFriends() {
-//   let a = document.querySelector('.mode-settings-friends')
-//   let b = document.querySelector('.ai-mode')
-//   a.style.display = 'block'
-//   b.style.display = 'none'
-// }
-
-// function cancelSettings() {
-//   const a = document.querySelector('.settings-active')
-//   const b = document.querySelector('.board-squares')
-//   a.className = "settings";
-//   b.style.display = 'grid'
-// }
-
-// function saveSettings() {
-//   let a = document.getElementById('human-player-x')
-//   let b = document.getElementById('human-player-o')
-//   if (a.value === "") {
-//     a = 'Player X'
-//   }
-//   else {
-//     document.getElementById('X').innerText = a.value
-//     game.players.playerX.name = a.value
-//   }
-//   if (b.value == "") {
-//     b = 'Player O'
-//     console.log('its also empty')
-//   }
-//   else {
-//     document.getElementById('O').innerText = b.value
-//     game.players.playerO.name = b.value
-//   }
-//   a.value = ""
-//   b.value = ""
-//   cancelSettings()
-// }
-
-// const settings = document.querySelector('.game-settings')
-// settings.addEventListener('click', settingss)
-
-// const cancel = document.getElementById('cancel');
-// cancel.addEventListener('click', cancelSettings)
-
-// const friendsSettings = document.querySelector('.against-friend')
-// friendsSettings.addEventListener('click', showFriends)
-
-// const AIsettings = document.querySelector('.against-ai')
-// AIsettings.addEventListener('click', showAISettings)
-
-// const startGame = document.querySelector('.game-start')
-// startGame.addEventListener('click', game.playAgain)
-
-// const saveButton = document.getElementById('save')
-// saveButton.addEventListener('click', saveSettings)
 
 
 
@@ -315,4 +322,23 @@ const gameboardModule = (() => {
 //   emptySquares[index].innerText = 'X'
 //   game.turnCounter++
 // }
-gameModule.startGame()
+
+
+
+
+// const setEventListeners = (documentMethod, domElement, functionToAdd) => {
+//   if (documentMethod == 'querySelectorAll') {
+//     const nodeList = document.querySelectorAll(`${domElement}`);
+//     nodeList.forEach((element)=> {
+//       element.addEventListener('click', functionToAdd)
+//     })
+//   }
+//   if (documentMethod == 'querySelector') {
+//     const node = document.querySelector(`${domElement}`);
+//     node.addEventListener('click', functionToAdd)
+//   }
+//     if (documentMethod == 'getElementById') {
+//     const node = document.getElementById(`${domElement}`);
+//     node.addEventListener('click', functionToAdd)
+//   }
+// }
