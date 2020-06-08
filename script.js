@@ -1,16 +1,5 @@
-//make sure the reset function resets the players names
-//prob need a start game function too -----DONE
-//adjust the symbol colors for each player
-//adjust the background colors for winning strike
-
-
-
-
-
-
-
-//PLAYERS
-const playersFactory = (name, symbol, type) => {
+//Player factory
+const playerFactory = (name, symbol, type) => {
   const getName = () => name;
   const getSymbol = () => symbol;
   const isHuman = () => type;
@@ -21,92 +10,113 @@ const playersFactory = (name, symbol, type) => {
   };
 };
 
-// GAME MODULE ************************
+
+// Game Module
 const gameModule = (() => {
 
-const settingss = () => {
-    const a = document.querySelector('.board-squares')
-    const b = document.querySelector('.settings')
-    a.style.display = 'none'
-    b.className = "settings-active";
+  let gameActive = true;
+  let turnCounter = 0;
+  let gameTypeHuman = true;
+  let playerX = playerFactory("Player X", "X", true);
+  let playerO = playerFactory("Player O", "O", true);
+  let activePlayer = playerX;
+
+  const arrayofCombinations = 
+  [[0,3,1], [3,6,1], [6,9,1], [0,7,3], [1,8,3], [2,9,3], [0,9,4], [2,7,2]];
+  const gameBoard = document.querySelector('.board-squares')
+  const gameSettings = document.getElementById('game-settings')
+  const playerXNameDisplay = document.getElementById("player-x-name");
+  const playerONameDisplay = document.getElementById("player-o-name");
+  const friendsModeDisplay = document.querySelector('.friends-mode')
+  const aiModeDisplay = document.querySelector('.ai-mode')
+  const humanPlayerXNameField = document.getElementById('human-player-x')
+  const humanPlayerONameField = document.getElementById('human-player-o')
+  const outcomeDisplay = document.querySelector('.outcome-display');
+
+
+  const play = () => {
+    turnCounter = 0;
+    gameActive = true;
+    activePlayer = playerX
+    gameboardModule.gameboardClear()
+    const squareNodeList = document.querySelectorAll('.square')
+    squareNodeList.forEach((square) => {
+      square.addEventListener("click", playRound);
+    })
   }
-const reset = () => {
-    const a = document.querySelector('.board-squares')
-    const b = document.querySelector('.settings')
-    a.style.display = 'none'
-    b.className = "settings-active";
+
+  const displaySettings = () => {
+    gameBoard.style.display = 'none'
+    gameSettings.className = "game-settings-active";
+  }
+
+  const reset = () => {
+    turnCounter = 0;
+    gameActive = true;
+    playerX = playerFactory('Player X', "X", true);
+    playerO = playerFactory('Player O', "O", true);
+    activePlayer = playerX;
+    playerXNameDisplay.innerText = playerX.getName()
+    playerONameDisplay.innerText = playerO.getName()
+    gameboardModule.gameboardClear()
+    const squareNodeList = document.querySelectorAll('.square')
+    squareNodeList.forEach((square) => {
+      square.addEventListener("click", playRound);
+    })
   }
   
-const showAISettings = () => {
-    let a = document.querySelector('.mode-settings-friends')
-    let b = document.querySelector('.ai-mode')
-    a.style.display = 'none'
-    b.style.display = 'block'
+  const showAISettings = () => {
+    friendsModeDisplay.style.display = 'none'
+    aiModeDisplay.style.display = 'block'
   }
   
-const showFriends = () => {
-    let a = document.querySelector('.mode-settings-friends')
-    let b = document.querySelector('.ai-mode')
-    a.style.display = 'block'
-    b.style.display = 'none'
+  const showFriends = () => {
+    friendsModeDisplay.style.display = 'block'
+    aiModeDisplay.style.display = 'none'
   }
   
-const cancelSettings = () => {
-    const a = document.querySelector('.settings-active')
-    const b = document.querySelector('.board-squares')
-    a.className = "settings";
-    b.style.display = 'grid'
+  const cancelSettings = () => {
+    gameSettings.className = "game-settings-none";
+    gameBoard.style.display = 'grid'
   }
   
-const saveSettings = () => {
-  let nameX = "";
-  let nameO = "";
-    let a = document.getElementById('human-player-x')
-    let b = document.getElementById('human-player-o')
-    if (a.value === "") {
-      nameX = 'Player X'
-    }
-    else {
-     nameX = a.value
-    }
-    if (b.value == "") {
-      nameO = 'Player O'
-    }
-    else {
-      nameO = b.value
-    }
-    let playerX = playersFactory(nameX, "X", true);
-    let playerO = playersFactory(nameO, "O", true);
-    document.getElementById('X').innerText = nameX
-    document.getElementById('O').innerText = nameO
-    cancelSettings()
+  const saveSettings = () => {
+    let nameX = "";
+    let nameO = "";
+      if (humanPlayerXNameField.value === "") {
+        nameX = 'Player X'
+      }
+      else {
+      nameX = humanPlayerXNameField.value
+      }
+      if (humanPlayerONameField.value == "") {
+        nameO = 'Player O'
+      }
+      else {
+        nameO = humanPlayerONameField.value
+      }
+      playerX = playerFactory(nameX, "X", true);
+      playerO = playerFactory(nameO, "O", true);
+      playerXNameDisplay.innerText = nameX + ' X'
+      playerONameDisplay.innerText = nameO + ' O'
+      activePlayer = playerX;
+      cancelSettings()
   }
 
   const startGame = () => {
     gameboardModule.renderGameBoard();
-    setEventListeners('querySelectorAll', '.square', playRound)
-    // if (!activePlayer.human()) {
-    //   computerMove()
-    // }
+    setEventListeners()
   }
 
-  let turnCounter = 0;
-  let playerX = playersFactory("Player X", "X", true);
-  let playerO = playersFactory("Player O", "O", true);
-  let activePlayer = playerX;
-  let gameActive = true;
-  let gameTypeHuman = true;
-  if (activePlayer === playerX) {
-  }
 
-  const toggleGameType = () => {
-    if (gameTypeHuman) {
-      gameTypeHuman = false;
-    }
-    else if (!gameTypeHuman) {
-      gameTypeHuman = true;
-    }
-  }
+  // const toggleGameType = () => {
+  //   if (gameTypeHuman) {
+  //     gameTypeHuman = false;
+  //   }
+  //   else if (!gameTypeHuman) {
+  //     gameTypeHuman = true;
+  //   }
+  // }
 
   const toggleGameActive = () => {
     if (gameActive) {
@@ -117,56 +127,35 @@ const saveSettings = () => {
     }
   }
 
-  const getActivePlayer = () => activePlayer;
-
-  const setActivePlayer = (name,symbol) => {
-    activePlayer.name = name;
-    activePlayer.symbol = symbol;
+  const toggleActivePlayer = () => {
+    if (activePlayer === playerX) {
+      activePlayer = playerO
+    }
+    else if (activePlayer === playerO) {
+      activePlayer = playerX
+    }
+    if (activePlayer.isHuman() === false) {
+      computerMove()
+    }
   }
 
-
- /* 
-Function startGame
-	Run Function to Render Board --done
-	Run Function to set event listeners --done
-	Run Function to set game type--to build 
-	Run Function to set Players – user default paremeters--to build
-	If active player is computer > Run computer move Function--to build
-*/
-const toggleActivePlayer = () => {
-  console.log('hi there from toggle')
-  if (activePlayer === playerX) {
-    console.log('active player is X')
-    activePlayer = playerO
-  }
-  else if (activePlayer === playerO) {
-    console.log('is this on?')
-    activePlayer = playerX
-  }
-  if (activePlayer.isHuman() === false) {
-    computerMove()
-  }
-}
-
-
-const displayGameOutcome = (outcome) => {
-
-  const outcomeDisplay = document.querySelector('.outcome-display');
+  const displayGameOutcome = (outcome) => {
   if (outcome === 'Draw!') {
     outcomeDisplay.innerText = 'Draw!'
   }
   else {
-    outcomeDisplay.innerText = outcome + 'Wins!';
+    outcomeDisplay.innerText = activePlayer.getName() + ' Wins!';
   }
   outcomeDisplay.style.display = 'block'
 }
 
-const playRound = (e) => {
-  if(e.target.innerText != '') return;
-  e.target.innerText = activePlayer.getSymbol()
-  gameOutcome();
-  toggleActivePlayer();
-}
+// 
+  const playRound = (element) => {
+    if (element.target.innerText != '') return;
+    element.target.innerText = activePlayer.getSymbol()
+    gameOutcome();
+    toggleActivePlayer();
+  }
 
   const stopGame = () => {
     toggleGameActive()
@@ -178,14 +167,10 @@ const playRound = (e) => {
 
   const gameOutcome = () => {
     turnCounter +=1;
-    const arrayofCombinations = 
-    [ [0,3,1], [3,6,1], [6,9,1], [0,7,3], [1,8,3], [2,9,3], [0,9,4], [2,7,2] ];
-  
     const arrayofSquares = document.querySelectorAll('.square');
     arrayofCombinations.forEach(array=> {
       let xCount = 0;
       let oCount = 0;
-      //for block
       for (let i = array[0]; i < array[1]; i+= array[2]) {
         if (arrayofSquares[i].innerText === 'X') {
           xCount += 1
@@ -194,34 +179,40 @@ const playRound = (e) => {
           oCount +=1
         }
       }
-
       if (xCount == 3 || oCount == 3) {
         stopGame();
         displayGameOutcome(activePlayer.getName())
       }
       else if (turnCounter == 9 && gameActive == true) {
-        console.log('apple')
         displayGameOutcome('Draw!')
       }
     })
-  //END of forEach
   }
-  return {startGame, gameOutcome, activePlayer, settingss, showAISettings, 
-        showFriends, cancelSettings, saveSettings}
+
+  const setEventListeners = () => {
+    const settings = document.querySelector('.settings');
+    settings.addEventListener('click', displaySettings)
+    const cancel = document.getElementById('cancel-button');
+    cancel.addEventListener('click', cancelSettings)
+    const friendsSettings = document.querySelector('.friends-mode')
+    friendsSettings.addEventListener('click', showFriends)
+    const AIsettings = document.querySelector('.ai-mode')
+    AIsettings.addEventListener('click', showAISettings)
+    const startGames = document.querySelector('.start-game')
+    startGames.addEventListener('click', play)
+    const saveButton = document.getElementById('save-button')
+    saveButton.addEventListener('click', saveSettings)
+    const resetButton = document.querySelector('.reset-game');
+    resetButton.addEventListener('click', reset);
+    const boardSquares = document.querySelectorAll('.square');
+    boardSquares.forEach(square => square.addEventListener('click', playRound))
+  }
+
+  return {startGame}
 })();
 
 
-
-
-
-
-
-
-
-
-
-/*  GAME BOARD MODULE  ----------------------------*/
-
+// Game Board Module
 const gameboardModule = (() => {
   const gameBoard = [
     {square: 1},
@@ -234,6 +225,8 @@ const gameboardModule = (() => {
     {square: 8},
     {square: 9},
   ]
+  const outcomeDisplay = document.querySelector('.outcome-display');
+
   const renderGameBoard = () => {
     gameBoard.forEach(element => {
       const square = document.createElement('div');
@@ -243,9 +236,9 @@ const gameboardModule = (() => {
       container.appendChild(square)
     });
   }
+
   const gameboardClear = () => {
     const clear = document.querySelectorAll('.square')
-    const outcomeDisplay = document.querySelector('.outcome-display');
     outcomeDisplay.style.display = 'none'
     clear.forEach((square) => {
     square.innerText = "";
@@ -255,30 +248,6 @@ const gameboardModule = (() => {
 
   return {renderGameBoard, gameboardClear}
 })();
-
-
-
-const settingss = document.querySelector('.game-settings')
-settingss.addEventListener('click', gameModule.settingss)
-
-const cancel = document.getElementById('cancel');
-cancel.addEventListener('click', gameModule.cancelSettings)
-
-const friendsSettings = document.querySelector('.against-friend')
-friendsSettings.addEventListener('click', gameModule.showFriends)
-
-const AIsettings = document.querySelector('.against-ai')
-AIsettings.addEventListener('click', gameModule.showAISettings)
-
-const startGames = document.querySelector('.game-start')
-startGames.addEventListener('click', gameboardModule.gameboardClear)
-
-const saveButton = document.getElementById('save')
-saveButton.addEventListener('click', gameModule.saveSettings)
-
-const resetButton = document.querySelector('.reset-game');
-resetButton.addEventListener('click', gameModule.reset);
-
 
 gameModule.startGame()
 
@@ -308,37 +277,3 @@ gameModule.startGame()
 
 
 
-
-
-
-
-
-// function computerMove() {
-//   const squares = Array.from(document.querySelectorAll(".square"));
-//   let emptySquares = squares.filter(function (e) {
-//     return e.innerText == "";
-//   });
-//   let index = Math.floor(Math.random() * emptySquares.length)
-//   emptySquares[index].innerText = 'X'
-//   game.turnCounter++
-// }
-
-
-
-
-// const setEventListeners = (documentMethod, domElement, functionToAdd) => {
-//   if (documentMethod == 'querySelectorAll') {
-//     const nodeList = document.querySelectorAll(`${domElement}`);
-//     nodeList.forEach((element)=> {
-//       element.addEventListener('click', functionToAdd)
-//     })
-//   }
-//   if (documentMethod == 'querySelector') {
-//     const node = document.querySelector(`${domElement}`);
-//     node.addEventListener('click', functionToAdd)
-//   }
-//     if (documentMethod == 'getElementById') {
-//     const node = document.getElementById(`${domElement}`);
-//     node.addEventListener('click', functionToAdd)
-//   }
-// }
