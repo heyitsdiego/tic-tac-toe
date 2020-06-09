@@ -5,34 +5,37 @@ body {
 }
 header {
   text-align: center;
-  margin-bottom: 5rem;
 }
 .main  {
-  width: 90%;
+  align-items: center;
+  width: 95%;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
+  display: flex;
+  flex-direction: column;
 }
 
 .players {
 font-size: 1.5rem;
 display: flex;
-flex-direction: column;
-align-items: flex-end;
-padding-right: 5rem;
+flex-direction: row;
+justify-content: space-between;
+margin-bottom: 2rem;
+width: 100%;
 }
-.players div {
-  margin: 1em 0;
+
+main .game-board {
+  align-items: center;
 }
 
 .game-board {
-  width: 500px;
-  height: 500px;
+  width: 350px;
+  height: 350px;
+  margin-bottom: 3rem;
 }
 
 .board-squares {
-  width: 500px;
-  height: 500px;
+  width: 350px;
+  height: 350px;
   display: grid;
   grid-template-columns: repeat(3,1fr);
   grid-template-rows: repeat(3,1fr);
@@ -44,7 +47,7 @@ padding-right: 5rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 7rem;
+  font-size: 4rem;
   border: white;
 }
 
@@ -81,10 +84,9 @@ padding-right: 5rem;
 }
 
 .controls {
-  padding-left: 5rem;
   font-size: 1.5rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 .controls div {
   margin: 1em 0;
@@ -155,22 +157,17 @@ a {
     font-size: 1rem;
     border-radius: 0.75rem;
     height: 2.5rem;
-    width: 9rem;
+    width: 7rem;
     font-weight: 600;
     line-height: 1;
     margin-bottom: 1.5rem;
   }
-
-  /* .button-container {
-
-  } */
 
   .start-game {
     font-size: 1rem;
     background-color: #ff4136;
     border-radius: 0.75rem;
     height: 2.5rem;
-    width: 9rem;
     color: #fefbef;
     font-weight: 600;
     line-height: 1;
@@ -181,7 +178,6 @@ a {
     background-color: #5492e2;;
     border-radius: 0.75rem;
     height: 2.5rem;
-    width: 9rem;
     color: #fefbef;
     font-weight: 600;
     line-height: 1;
@@ -192,7 +188,6 @@ a {
     background-color: #929292;
     border-radius: 0.75rem;
     height: 2.5rem;
-    width: 9rem;
     color: #fefbef;
     font-weight: 600;
     line-height: 1;
@@ -203,29 +198,57 @@ a {
     margin-bottom: .5rem;
   }
 
-  /* Extra small devices (portrait phones, less than 576px) */
-  @media (max-width: 575.98px) {
 
+/* // Extra small devices (portrait phones, less than 576px)
+// No media query since this is the default in Bootstrap */
+@media only screen 
+    and (device-width : 375px) 
+    and (device-height : 812px) 
+    and (-webkit-device-pixel-ratio : 3)
+and (orientation : portrait) { 
+  .players {
+    margin-bottom: 5rem;
   }
-  
-  /* Small devices (landscape phones, less than 768px) */
-  @media (max-width: 767.98px) { ... }
-  
-  /* Medium devices (tablets, less than 992px) */
-  @media (max-width: 991.98px) {
-    .game-board {
-      width: 400px;
-      height: 400px;
-    }
-    .board-squares {
-      width: 400px;
-      height: 400px;
-    }
-  }
+  .game-board {
+    width: 350px;
+    height: 350px;
+    margin-bottom: 9rem;
+}
+}
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 414px) {
+  .game-board {
+    margin-bottom: 8rem;
+}
 
-  
-  /* Large devices (desktops, less than 1200px) */
-  @media (max-width: 1199.98px) { ... }
-  
-  /* Extra large devices (large desktops)
-  No media query since the extra-large breakpoint has no upper bound on its width */
+}
+@media (min-width: 576px) {
+
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) { 
+  .players {
+    justify-content: space-around;
+    margin-bottom: 5rem;
+  }
+  .game-board {
+    width: 450px;
+    height: 450px;
+    margin-bottom: 9rem;
+  }
+  .board-squares {
+    width: 450px;
+    height: 450px;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) { 
+
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) { 
+
+}
