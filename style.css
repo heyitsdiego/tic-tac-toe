@@ -1,17 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 body {
-  font-family: 'Comic Neue';
-  background: #f7fafc
+  background: #fefbef;
+  font-family: Arial, Helvetica, sans-serif;
 }
 header {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 5rem;
 }
 .main  {
   width: 90%;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3,1fr);
 }
 
 .players {
@@ -39,44 +39,45 @@ padding-right: 5rem;
 }
 
 .square {
+  font-family: 'Comic Neue';
   padding: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 5rem;
+  font-size: 7rem;
   border: white;
 }
 
 #sq1 {
-  border-right: 6px solid #2a7758;
+  border-right: 6px solid #27171a;
 }
 #sq2 {
-  border-right:  6px solid #2a7758;
+  border-right:  6px solid #27171a;
 }
 /* #sq3 {
 
 } */
 #sq4 {
-  border-right:  6px solid #2a7758;
-  border-top:  6px solid #2a7758;
+  border-right:  6px solid #27171a;
+  border-top:  6px solid #27171a;
 }
 #sq5 {
-  border-right:  6px solid #2a7758;
-  border-top: 6px solid #2a7758;
+  border-right:  6px solid #27171a;
+  border-top: 6px solid #27171a;
 }
 #sq6 {
-  border-top:  6px solid #2a7758;
+  border-top:  6px solid #27171a;
 }
 #sq7 {
-  border-top:  6px solid #2a7758;
-  border-right:  6px solid #2a7758;
+  border-top:  6px solid #27171a;
+  border-right:  6px solid #27171a;
 }
 #sq8 {
-  border-top:  6px solid #2a7758;
-  border-right:  6px solid #2a7758;
+  border-top:  6px solid #27171a;
+  border-right:  6px solid #27171a;
 }
 #sq9 {
-  border-top:  6px solid #2a7758;
+  border-top:  6px solid #27171a;
 }
 
 .controls {
@@ -150,5 +151,81 @@ a {
     margin-left: 4rem;
   }
 
-  /*for O color: #cd3d64;
-  for X     color: #596ada; */
+  button {
+    font-size: 1rem;
+    border-radius: 0.75rem;
+    height: 2.5rem;
+    width: 9rem;
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+  }
+
+  /* .button-container {
+
+  } */
+
+  .start-game {
+    font-size: 1rem;
+    background-color: #ff4136;
+    border-radius: 0.75rem;
+    height: 2.5rem;
+    width: 9rem;
+    color: #fefbef;
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+  }
+  .reset-game {
+    font-size: 1rem;
+    background-color: #5492e2;;
+    border-radius: 0.75rem;
+    height: 2.5rem;
+    width: 9rem;
+    color: #fefbef;
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+  }
+  .settings {
+    font-size: 1rem;
+    background-color: #929292;
+    border-radius: 0.75rem;
+    height: 2.5rem;
+    width: 9rem;
+    color: #fefbef;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .game-settings-active div {
+    font-size: 1rem;
+    margin-bottom: .5rem;
+  }
+
+  /* Extra small devices (portrait phones, less than 576px) */
+  @media (max-width: 575.98px) {
+
+  }
+  
+  /* Small devices (landscape phones, less than 768px) */
+  @media (max-width: 767.98px) { ... }
+  
+  /* Medium devices (tablets, less than 992px) */
+  @media (max-width: 991.98px) {
+    .game-board {
+      width: 400px;
+      height: 400px;
+    }
+    .board-squares {
+      width: 400px;
+      height: 400px;
+    }
+  }
+
+  
+  /* Large devices (desktops, less than 1200px) */
+  @media (max-width: 1199.98px) { ... }
+  
+  /* Extra large devices (large desktops)
+  No media query since the extra-large breakpoint has no upper bound on its width */
