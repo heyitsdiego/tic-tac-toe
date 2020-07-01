@@ -1,12 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
-html {
-  height: 100%;
-}
 
 body {
   background: #fefbef;
   font-family: Arial, Helvetica, sans-serif;
-  height: 100%;
 }
 
 header {
@@ -15,20 +11,18 @@ header {
 
 .container  {
   display: flex;
+  flex-direction: column;
   align-items: center;
   width: 95%;
   margin: 0 auto;
-  flex-direction: column;
-  height: 95%;
 }
 
 .players {
 font-size: 1.5rem;
-display: flex;
-flex-direction: row;
+display: inherit;
 justify-content: space-between;
-margin-bottom: 2rem;
-width: 100%;
+margin-bottom: .5rem;
+width: 90%;
 }
 
 main .game-board {
@@ -36,9 +30,13 @@ main .game-board {
 }
 
 .game-board {
-  width: 100%;
-  height: 55%;
+  width: 90vw;
+  height: 90vw;
+  max-width: 500px;
+  max-height: 500px;
   margin-bottom: 2rem;
+  justify-content: center;
+  position: relative;
 }
 
 .board-squares {
@@ -51,11 +49,10 @@ main .game-board {
 
 .square {
   font-family: 'Comic Neue';
-  padding: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 4rem;
+  font-size: 3.5rem;
   border: white;
 }
 
@@ -95,7 +92,6 @@ main .game-board {
   font-size: 1.5rem;
   display: flex;
   flex-direction: row;
-  width: 100%;
   justify-content: space-around;
 }
 .controls div {
@@ -208,21 +204,40 @@ a {
 
 /* // Extra small devices (portrait phones, less than 576px)
 // No media query since this is the default in Bootstrap */
-@media (min-width: 576px) { 
-  
-}
 
+@media (min-width: 950px) {
+  .container {
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+  }
 
-@media (min-width: 768px) { 
-  
-}
+  .players {
+      flex-direction: column;
+      width: 150px;
+      align-items: flex-end;
+      padding: 0;
+      margin-right: 20px;
+  }
 
+  .gameboard {
+      flex: 2 1 auto;
+  }
 
-@media (min-width: 992px) { 
-  
-}
+  .controls {
+    width: 150px;
+    margin: 0.2rem 0 0 17px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
+  .controls button {
+    width: 8em;
+    margin-bottom: 1em;
+  }
 
-@media (min-width: 1200px) { 
-  
+  .settings {
+      margin-bottom: 1rem;
+  }
 }
