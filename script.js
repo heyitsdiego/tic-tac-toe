@@ -43,6 +43,7 @@ const gameModule = (() => {
     squareNodeList.forEach((square) => {
       square.addEventListener("click", playRound);
     })
+    highlightActivePlayer()
   }
 
   const displaySettings = () => {
@@ -58,6 +59,7 @@ const gameModule = (() => {
     activePlayer = playerX;
     playerXNameDisplay.innerText = playerX.getName()
     playerONameDisplay.innerText = playerO.getName()
+    highlightActivePlayer()
     gameboardModule.gameboardClear()
     const squareNodeList = document.querySelectorAll('.square')
     squareNodeList.forEach((square) => {
@@ -97,26 +99,29 @@ const gameModule = (() => {
       }
       playerX = playerFactory(nameX, "X", true);
       playerO = playerFactory(nameO, "O", true);
-      playerXNameDisplay.innerText = nameX + ' X'
-      playerONameDisplay.innerText = nameO + ' O'
+      playerXNameDisplay.innerText = nameX
+      playerONameDisplay.innerText = nameO
       activePlayer = playerX;
       cancelSettings()
+  }
+
+  const highlightActivePlayer = () => {
+    if (gameActive === false) return;
+    if (activePlayer === playerX) {
+      playerONameDisplay.style.borderBottom = ''
+      playerXNameDisplay.style.borderBottom = '10px solid rgb(91, 99, 202)'
+    }
+    else if (activePlayer === playerO) {
+      playerXNameDisplay.style.borderBottom = ''
+      playerONameDisplay.style.borderBottom = '10px solid rgb(247, 56, 94)';
+    }
   }
 
   const startGame = () => {
     gameboardModule.renderGameBoard();
     setEventListeners()
+    highlightActivePlayer()
   }
-
-
-  // const toggleGameType = () => {
-  //   if (gameTypeHuman) {
-  //     gameTypeHuman = false;
-  //   }
-  //   else if (!gameTypeHuman) {
-  //     gameTypeHuman = true;
-  //   }
-  // }
 
   const toggleGameActive = () => {
     if (gameActive) {
@@ -152,9 +157,16 @@ const gameModule = (() => {
 // 
   const playRound = (element) => {
     if (element.target.innerText != '') return;
+    if (activePlayer.getSymbol() == 'X') {
+      element.target.style.color = "#5b63ca";
+    }
+    else if (activePlayer.getSymbol() == 'O') {
+      element.target.style.color = "#f7385e";
+    }
     element.target.innerText = activePlayer.getSymbol()
     gameOutcome();
     toggleActivePlayer();
+    highlightActivePlayer();
   }
 
   const stopGame = () => {
@@ -164,6 +176,13 @@ const gameModule = (() => {
       square.removeEventListener("click", playRound);
     })
   }
+
+  const highlightWinningCombination = (array) => {
+    const arrayofSquares = document.querySelectorAll('.square');
+      for (let i = array[0]; i < array[1]; i+= array[2]) {
+        arrayofSquares[i].style.backgroundColor = '#fdf5d7'
+        }
+      }
 
   const gameOutcome = () => {
     turnCounter +=1;
@@ -181,6 +200,7 @@ const gameModule = (() => {
       }
       if (xCount == 3 || oCount == 3) {
         stopGame();
+        highlightWinningCombination(array)
         displayGameOutcome(activePlayer.getName())
       }
       else if (turnCounter == 9 && gameActive == true) {
