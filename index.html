@@ -4,35 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tic Tac Toe</title>
+  <link href="https://unpkg.com/sanitize.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<header>
-  <h1>Tic-Tac-Toe</h1>
-</header>
-
-  <div class="main">
-
+  <div class="container">
+    <header>
+      <h1>Tic-Tac-Toe</h1>
+    </header>
     <div class="players">
         <p id="player-x-name" class="player-x-name">Player X</p>
         <p id="player-o-name" class="player-x-name">Player O</p>
       </div>
-
     <div class="game-board">
       <div class="outcome-display"></div>
-
       <div id="game-settings" class="game-settings-none">
             <div class="against-friend">Play against a friend</div><br>
             <div class="against-ai">Play against a AI</div><br>
-    
             <div class="friends-mode">
                 <p class="mode-players">Players</p>
-                <input type="text" id="human-player-x" name="player-x" placeholder="Player X" maxlength="15">
+                <input type="text" id="human-player-x" name="player-x" placeholder="Player X" maxlength="10">
                 <br>
-                <input type="text" id="human-player-o" name="player-o" placeholder="Player O" maxlength="15">
+                <input type="text" id="human-player-o" name="player-o" placeholder="Player O" maxlength="10">
             </div>
-    
             <div class="ai-mode">
                 <p class="mode-players">Players</p>
                     <input class="ai-mode-input ai-x" type="text" name="player-x" placeholder="Player X" maxlength="15">
@@ -47,23 +41,13 @@
             </div>
         </form>
     </div>
-
     <div class="board-squares"></div>
-  
     </div>
-
      <div class="controls">
-      <div class="start-game">
-        Start
-      </div>
-       <div class="reset-game">
-        Reset
-       </div>
-       <div class="settings">
-         Settings
-       </div>
+      <button type="button" class="start-game">Start</button> 
+      <button type="button" class="reset-game">Reset</button> 
+      <button type="button" class="settings">Settings</button> 
      </div>
-
 </div>
 <script src="script.js"></script>
 </body>
